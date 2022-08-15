@@ -1,0 +1,7 @@
+<ActionBar title="NativeScript is pretty cool!"> </ActionBar>
+
+<StackLayout class="p-20">
+  <Label text="The Battery Level is:" class="h1 text-center"></Label>
+  <Label [text]="level ? level + '%' : '---'" class="h2 text-center"></Label>
+  <Button [text]="isListening ? 'Stop Listening to Battery Changes' : 'Listen for battery changes'" class="action-btn" (tap)="toggleListenForChanges()"></Button>
+</StackLayout>

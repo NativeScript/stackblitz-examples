@@ -2,11 +2,12 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "nativescript-starter-angular": "apps/nativescript-starter-angular",
-    "nativescript-starter-javascript": "apps/nativescript-starter-javascript",
-    "nativescript-starter-react": "apps/nativescript-starter-react",
-    "nativescript-starter-svelte": "apps/nativescript-starter-svelte",
-    "nativescript-starter-typescript": "apps/nativescript-starter-typescript",
-    "nativescript-starter-vue": "apps/nativescript-starter-vue"
+    "battery-angular": "apps/battery/angular",
+    "battery-javascript": "apps/battery/javascript",
+    "battery-react": "apps/battery/react",
+    "battery-svelte": "apps/battery/svelte",
+    "battery-typescript": "apps/battery/typescript",
+    "battery-vue": "apps/battery/vue",
+    "nativescript-battery": "libs/nativescript-battery"
   }
 }

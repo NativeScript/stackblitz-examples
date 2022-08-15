@@ -19,10 +19,10 @@ jobs:
           mkdir dist/
 
           # copy template to output directory
-          cp -r apps/nativescript-starter-${{ matrix.starter }} dist/
+          cp -r apps/battery/${{ matrix.starter }} dist/
 
           # enter template directory
-          cd dist/nativescript-starter-${{ matrix.starter }}
+          cd dist/battery/${{ matrix.starter }}
 
           # copy gitignore from template
           cp ../../tools/assets/dot.gitignore .gitignore
@@ -42,5 +42,5 @@ jobs:
           REPO: self
           BRANCH: ${{ matrix.starter }}
           MESSAGE: "chore(update): {target-branch} to {sha}"
-          FOLDER: dist/nativescript-starter-${{ matrix.starter }}
+          FOLDER: dist/battery/${{ matrix.starter }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
