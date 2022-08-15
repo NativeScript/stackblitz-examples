@@ -1,42 +1,37 @@
 import { Observable } from '@nativescript/core';
+import { checkBatteryLevel, listenForBatteryChanges } from '@stackblitz/nativescript-battery';
+
+const formatMessage = (level) => `The Battery Level is: ${level}%`;
 
 export class HelloWorldModel extends Observable {
-  private _counter: number;
-  private _message: string;
+  level: number;
+  isListening = false;
 
   constructor() {
     super();
-
-    // Initialize default values.
-    this._counter = 42;
-    this.updateMessage();
+    this.updateBatteryLevel();
   }
 
-  get message(): string {
-    return this._message;
+  async updateBatteryLevel() {
+    const value = await checkBatteryLevel();
+    this.updateLevel(value);
+    alert(formatMessage(value));
   }
 
-  set message(value: string) {
-    if (this._message !== value) {
-      this._message = value;
-      this.notifyPropertyChange('message', value);
+  async toggleListenForChanges() {
+    this.isListening = listenForBatteryChanges((value) => {
+      this.updateLevel(value);
+    });
+    this.notifyPropertyChange('isListening', this.isListening);
+    if (this.isListening) {
+      // update view binding right away
+      const value = await checkBatteryLevel();
+      this.updateLevel(value);
     }
   }
 
-  onTap() {
-    this._counter--;
-    this.updateMessage();
-  }
-
-  private updateMessage() {
-    if (this._counter <= 0) {
-      this.message =
-        'Hoorraaay! You unlocked the NativeScript clicker achievement!';
-    } else {
-      this.message = `${this._counter} taps left`;
-    }
-
-    // log the message to the console
-    console.log(this.message);
+  private updateLevel(value: number) {
+    this.level = value;
+    this.notifyPropertyChange('level', this.level);
   }
 }

@@ -14,11 +14,11 @@
       "~/*": ["src/*"],
       "@/*": ["src/*"],
       "@stackblitz/nativescript-battery": [
-        "../../../libs/nativescript-battery/src/index.d.ts"
+        "../../../libs/nativescript-battery/src/index.ts"
       ]
     }
   },
-  "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts"],
+  "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
   "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts"],
   "exclude": ["node_modules", "platforms", "e2e"]
 }
