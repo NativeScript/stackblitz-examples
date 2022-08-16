@@ -41,15 +41,12 @@ export function HomeScreen({ navigation }: HomeScreenProps) {
   updateBatteryLevel();
 
     return (
-      <>
-      <actionBar title="NativeScript is pretty cool!" />
         <stackLayout className="p-20">
             <label className="h1 text-center">The Battery Level is:</label>
             <label className="h2 text-center">{level ? level + '%' : '---'}</label>
             <button className="action-btn" onTap={() => toggleListenForChanges()} text={isListening ? 'Stop Listening to Battery Changes' : 'Listen for battery changes'}></button>
             <image src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" width="200" class="m-t-20"/>
         </stackLayout>
-        </>
     );
 }
 

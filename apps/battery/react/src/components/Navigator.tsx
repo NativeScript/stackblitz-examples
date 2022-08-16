@@ -19,6 +19,7 @@ export const mainStackNavigator = () => (
             <StackNavigator.Screen
                 name="Home"
                 component={HomeScreen}
+                options={{ title: "NativeScript is really cool!" }}
             />
         </StackNavigator.Navigator>
     </BaseNavigationContainer>

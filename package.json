@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "clean": "npx rimraf node_modules package-lock.json yarn.lock && yarn",
-    "clean.all": "yarn clean && nx run-many --target=clean --all"
+    "clean": "npx rimraf node_modules package-lock.json yarn.lock && yarn && yarn postinstall",
+    "clean.all": "yarn clean && nx run-many --target=clean --all",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@nativescript/nx": "^4.0.1",
@@ -25,7 +26,9 @@
     "eslint-config-prettier": "8.5.0",
     "jest": "28.1.1",
     "nx": "14.5.6",
+    "patch-package": "~6.4.7",
     "prettier": "^2.6.2",
+    "postinstall-postinstall": "^2.1.0",
     "ts-jest": "28.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.7.0"
