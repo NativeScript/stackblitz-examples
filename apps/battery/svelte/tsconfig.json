@@ -11,7 +11,10 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["app/*"],
-      "@/*": ["app/*"]
+      "@/*": ["app/*"],
+      "@stackblitz/nativescript-battery": [
+        "../../../libs/nativescript-battery/src/index.ts"
+      ]
     },
     "typeRoots": ["types"],
     "types": ["node"],
@@ -21,6 +24,6 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
-  "include": ["app", "types"],
+  "include": ["app", "types", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
   "exclude": ["node_modules", "platforms"]
 }

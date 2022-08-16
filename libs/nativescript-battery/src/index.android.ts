@@ -48,13 +48,18 @@ export function listenForBatteryChanges(callback?: (level: number) => void) {
   return batteryState.isListening;
 }
 
-let broadcastReceiverClass;
+interface Constructable<T> {
+  new (...args: any): T;
+}
+type BroadcastReceiverType = Partial<android.content.BroadcastReceiver> &
+  Constructable<android.content.BroadcastReceiver>;
+let BroadcastReceiverImpl: BroadcastReceiverType;
 let registeredReceivers: {
-  [key: string]: android.content.BroadcastReceiver;
+  [key: string]: android.content.BroadcastReceiver | undefined;
 };
 
 function ensureBroadCastReceiver() {
-  if (broadcastReceiverClass) {
+  if (BroadcastReceiverImpl) {
     return;
   }
 
@@ -74,7 +79,7 @@ function ensureBroadCastReceiver() {
       super();
       this._onReceiveCallback = onReceiveCallback;
 
-      return global.__native(this);
+      return (<any>global).__native(this);
     }
 
     public onReceive(
@@ -87,7 +92,7 @@ function ensureBroadCastReceiver() {
     }
   }
 
-  broadcastReceiverClass = BroadcastReceiver;
+  BroadcastReceiverImpl = <BroadcastReceiverType>(<unknown>BroadcastReceiver);
 }
 
 function broadcastReceiverRegister(
@@ -99,8 +104,7 @@ function broadcastReceiverRegister(
 ): void {
   ensureBroadCastReceiver();
   const registerFunc = (context: android.content.Context) => {
-    const receiver: android.content.BroadcastReceiver =
-      new broadcastReceiverClass(onReceiveCallback);
+    const receiver = new BroadcastReceiverImpl(onReceiveCallback);
     context.registerReceiver(
       receiver,
       new android.content.IntentFilter(intentFilter)

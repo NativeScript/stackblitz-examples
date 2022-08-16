@@ -1,8 +1,34 @@
+# StackBlitz Examples
 
+The examples are managed on the `main` branch only - the individual flavor branches are automatically updated when pushing to `main`
 
-# StackBlitz Templates
+Each example is split into it's own folder within apps, for example:
 
-The templates are managed on the `main` branch only - the individual flavor branches are automatically updated when pushing to `main`
+```
+apps/{example}/{flavor}
+```
+
+Each example can utilize shared `libs` for their examples to reuse across flavors, for example:
+
+```
+libs/nativescript-battery
+```
+
+^ is used across all `apps/battery` examples.
+
+## Test them out locally
+
+Since each flavor utilizes it's own node_modules dependencies you want to clean each example before running it, for example:
+
+```
+npx nx run battery-angular:clean
+```
+
+You can now try out the example:
+
+```
+npx nx run battery-angular:ios
+```
 
 > **Warning:** Do not edit the individual flavor branches manually!.
 

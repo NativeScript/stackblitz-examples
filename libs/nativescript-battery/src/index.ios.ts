@@ -10,7 +10,7 @@ export function checkBatteryLevel(): Promise<number> {
 }
 
 // Listen for changes
-let observer;
+let observer: NSObjectProtocol | null;
 export function listenForBatteryChanges(callback?: (level: number) => void) {
   batteryState.clientCallback = callback;
   if (!batteryState.isListening) {
@@ -21,7 +21,7 @@ export function listenForBatteryChanges(callback?: (level: number) => void) {
       NSNotificationCenter.defaultCenter.addObserverForNameObjectQueueUsingBlock(
         UIDeviceBatteryLevelDidChangeNotification,
         null,
-        null,
+        NSOperationQueue.mainQueue,
         (n: NSNotification) => {
           if (batteryState.clientCallback) {
             batteryState.clientCallback(
