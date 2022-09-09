@@ -8,6 +8,7 @@
     "battery-svelte": "apps/battery/svelte",
     "battery-typescript": "apps/battery/typescript",
     "battery-vue": "apps/battery/vue",
-    "nativescript-battery": "libs/nativescript-battery"
+    "nativescript-battery": "libs/nativescript-battery",
+    "nativescript-torch": "libs/nativescript-torch"
   }
 }

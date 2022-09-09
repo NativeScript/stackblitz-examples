@@ -20,6 +20,9 @@
     "paths": {
       "@stackblitz/nativescript-battery": [
         "libs/nativescript-battery/src/index.ts"
+      ],
+      "@stackblitz/nativescript-torch": [
+        "libs/nativescript-torch/src/index.ts"
       ]
     }
   },
