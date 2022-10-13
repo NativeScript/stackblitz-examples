@@ -1,0 +1,29 @@
+{
+  "name": "stackblitz-examples-battery-react",
+  "main": "src/app.ts",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@nativescript/core": "~8.3.0",
+    "@react-navigation/core": "^5.15.3",
+    "@stackblitz/nativescript-battery": "file:../../../libs/nativescript-battery/src",
+    "react": "~16.13.1",
+    "react-nativescript": "^3.0.0-beta.1",
+    "react-nativescript-navigation": "3.0.0-beta.2"
+  },
+  "devDependencies": {
+    "@nativescript/ios": "8.3.3",
+    "@nativescript/preview-cli": "1.0.0-beta.18",
+    "@nativescript/stackblitz": "0.0.5",
+    "@nativescript/types-minimal": "~8.3.0",
+    "@nativescript/webpack": "~5.0.0",
+    "@types/react": "16.9.34",
+    "patch-package": "~6.4.7",
+    "typescript": "~4.7.0"
+  },
+  "scripts": {
+    "postinstall": "patch-package",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch"
+  }
+}

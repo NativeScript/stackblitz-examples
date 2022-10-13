@@ -1,0 +1,11 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="navigatingTo">
+    <ActionBar title="NativeScript is pretty cool!" icon="" />
+
+    <StackLayout class="p-20">
+        <Label text="The Battery Level is:" class="h1 text-center" />
+        <Label text="{{ level ? level + '%' : '---' }}" class="h2 text-center" />
+        <Button text="{{ isListening ? 'Stop Listening to Battery Changes' : 'Listen for battery changes' }}" class="action-btn" tap="{{toggleListenForChanges}}" />
+        <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Typescript_logo_2020.svg/1024px-Typescript_logo_2020.svg.png" width="200" class="m-t-20"/>
+
+    </StackLayout>
+</Page>

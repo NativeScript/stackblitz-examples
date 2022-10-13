@@ -9,6 +9,7 @@
     "battery-typescript": "apps/battery/typescript",
     "battery-vue": "apps/battery/vue",
     "nativescript-battery": "libs/nativescript-battery",
-    "nativescript-torch": "libs/nativescript-torch"
+    "nativescript-torch": "libs/nativescript-torch",
+    "nativescript-root-layout": "libs/nativescript-root-layout"
   }
 }
