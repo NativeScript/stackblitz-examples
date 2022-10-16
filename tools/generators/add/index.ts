@@ -5,7 +5,7 @@ export default async function(tree: Tree, schema: any) {
   const name = schema.name;
   await libraryGenerator(tree, {name});
   tree.delete(`libs/nativescript-${name}/src`);
-  generateFiles(tree, joinPathFragments(__dirname, 'files', 'libs'), `./packages/nativescript-${name}`, {
+  generateFiles(tree, joinPathFragments(__dirname, 'files', 'libs'), `./packages/nativescript-${name}/src`, {
     name,
     tmpl: '',
     dot: '.',
