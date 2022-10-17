@@ -6,6 +6,7 @@ import {
 } from '@nrwl/devkit';
 import { library as libraryGenerator } from '@nativescript/nx/src/generators/library/library';
 
+const DEBUG = false;
 const flavors = [
   'angular',
   'javascript',
@@ -18,12 +19,14 @@ export default async function (tree: Tree, schema: any) {
   const name = schema.name;
   await createSharedExampleLib(tree, name);
   await createFlavorApps(tree, name);
-  updateJson(tree, `workspace.json`, (json) => {
-    for (const flavor of flavors) {
-      json.projects[`${name}-${flavor}`] = `apps/${name}/${flavor}`;
-    }
-    return json;
-  });
+  if (!DEBUG) {
+    updateJson(tree, `workspace.json`, (json) => {
+      for (const flavor of flavors) {
+        json.projects[`${name}-${flavor}`] = `apps/${name}/${flavor}`;
+      }
+      return json;
+    });
+  }
 }
 
 async function createSharedExampleLib(tree: Tree, name: string) {
@@ -66,7 +69,7 @@ async function createFlavorApps(tree: Tree, name: string) {
     const fileListing = tree.children(appPath);
     for (const filename of fileListing) {
       if (!ignoreFolders.includes(filename)) {
-        console.log('filename:', filename);
+        // console.log('filename:', filename);
         let filePath = `${appPath}/${filename}`;
         if (tree.isFile(filePath)) {
           // read the file and search/replace lib with newly created example lib
@@ -87,7 +90,11 @@ async function createFlavorApps(tree: Tree, name: string) {
             fileContents = fileContents.replace(/battery-/gi, `${name}-`);
           }
           filePath = filePath.replace(`apps/battery`, `apps/${name}`);
-          tree.write(filePath, fileContents);
+          if (DEBUG) {
+            console.log('create:', filePath);
+          } else {
+            tree.write(filePath, fileContents);
+          }
         } else {
           createFile(filePath);
         }
@@ -95,10 +102,14 @@ async function createFlavorApps(tree: Tree, name: string) {
     }
   };
   for (const flavor of batteryFlavors) {
-    console.log('----');
+    if (DEBUG) {
+      console.log('   ');
+    }
     if (!ignoreFiles.includes(flavor)) {
       const flavorDir = `${exampleCopyTargetPath}/${flavor}`;
-      console.log('flavorDir:', flavorDir);
+      if (DEBUG) {
+        console.log('---  ', flavor, '   ---');
+      }
       createFile(flavorDir);
     }
   }
