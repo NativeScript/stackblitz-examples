@@ -2,7 +2,11 @@ import { generateFiles, joinPathFragments, Tree } from '@nrwl/devkit';
 import { library as libraryGenerator } from '@nativescript/nx/src/generators/library/library';
 
 export default async function (tree: Tree, schema: any) {
-  const name = schema.name;
+  await createSharedExampleLib(tree, schema.name);
+  await createFlavorApps(tree, schema.name);
+}
+
+async function createSharedExampleLib(tree: Tree, name: string) {
   await libraryGenerator(tree, { name, unitTestRunner: 'none' });
   tree.delete(`libs/nativescript-${name}/src/lib/nativescript-${name}.spec.ts`);
   tree.delete(`libs/nativescript-${name}/src/lib/nativescript-${name}.ts`);
@@ -30,4 +34,51 @@ export default async function (tree: Tree, schema: any) {
       dot: '.',
     }
   );
+}
+
+async function createFlavorApps(tree: Tree, name: string) {
+  // base flavor apps off the battery example since they should all be same setup
+  const exampleCopyTargetPath = 'apps/battery';
+  const batteryFlavors = tree.children(exampleCopyTargetPath);
+  const ignoreFiles = ['.DS_Store'];
+  const ignoreFolders = ['node_modules', 'hooks', 'platforms', 'typings'];
+  const createFile = (appPath: string) => {
+    const fileListing = tree.children(appPath);
+    for (const filename of fileListing) {
+      if (!ignoreFolders.includes(filename)) {
+        console.log('filename:', filename);
+        const filePath = `${appPath}/${filename}`;
+        if (tree.isFile(filePath)) {
+          // read the file and search/replace lib with newly created example lib
+          let fileContents = tree.read(filePath)!.toString('utf-8');
+          if (fileContents?.indexOf('nativescript-battery') > -1) {
+            fileContents = fileContents.replace(
+              /nativescript-battery/gi,
+              `nativescript-${name}`
+            );
+          }
+          if (fileContents?.indexOf('apps/battery') > -1) {
+            fileContents = fileContents.replace(
+              /apps\/battery/gi,
+              `apps/${name}`
+            );
+          }
+          if (fileContents?.indexOf('battery-') > -1) {
+            fileContents = fileContents.replace(/battery-/gi, `${name}-`);
+          }
+          tree.write(filePath, fileContents);
+        } else {
+          createFile(filePath);
+        }
+      }
+    }
+  };
+  for (const flavor of batteryFlavors) {
+    console.log('----');
+    if (!ignoreFiles.includes(flavor)) {
+      const flavorDir = `${exampleCopyTargetPath}/${flavor}`;
+      console.log('flavorDir:', flavorDir);
+      createFile(flavorDir);
+    }
+  }
 }
