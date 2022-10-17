@@ -23,9 +23,6 @@
       ],
       "@stackblitz/nativescript-torch": [
         "libs/nativescript-torch/src/index.ts"
-      ],
-      "@stackblitz/nativescript-root-layout": [
-        "libs/nativescript-root-layout/src/index.ts"
       ]
     }
   },
