@@ -3,9 +3,15 @@ import { library as libraryGenerator } from '@nativescript/nx/src/generators/lib
 
 export default async function (tree: Tree, schema: any) {
   const name = schema.name;
-  await libraryGenerator(tree, { name });
+  await libraryGenerator(tree, { name, unitTestRunner: 'none' });
   tree.delete(`libs/nativescript-${name}/src/lib/nativescript-${name}.spec.ts`);
   tree.delete(`libs/nativescript-${name}/src/lib/nativescript-${name}.ts`);
+  tree.delete(`libs/nativescript-${name}/.babelrc`);
+  tree.delete(`libs/nativescript-${name}/jest.config.ts`);
+  tree.write(
+    `libs/nativescript-${name}/references.d.ts`,
+    `/// <reference path="../../references.d.ts" />`
+  );
   tree.write(
     `libs/nativescript-${name}/src/index.ts`,
     `/**
@@ -17,7 +23,7 @@ export default async function (tree: Tree, schema: any) {
   generateFiles(
     tree,
     joinPathFragments(__dirname, 'files', 'libs'),
-    `./packages/nativescript-${name}/src`,
+    `./libs/nativescript-${name}/src`,
     {
       name,
       tmpl: '',
