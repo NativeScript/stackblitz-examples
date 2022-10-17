@@ -1,0 +1,37 @@
+import * as React from "react";
+import { RouteProp } from '@react-navigation/core';
+import { FrameNavigationProp } from "react-nativescript-navigation";
+import { StyleSheet } from "react-nativescript";
+import {  } from '@stackblitz/nativescript-battery';
+import { MainStackParamList } from "./NavigationParamList";
+
+type HomeScreenProps = {
+    route: RouteProp<MainStackParamList, "Home">,
+    navigation: FrameNavigationProp<MainStackParamList, "Home">,
+}
+
+export function HomeScreen({ navigation }: HomeScreenProps) {
+
+    return (
+        <stackLayout className="p-20">
+            <label className="h1 text-center">to do</label>
+        </stackLayout>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        height: "100%",
+        flexDirection: "column",
+        justifyContent: "center",
+    },
+    text: {
+        textAlignment: "center",
+        fontSize: 24,
+        color: "black",
+    },
+    button: {
+        fontSize: 24,
+        color: "#2e6ddf",
+    },
+});

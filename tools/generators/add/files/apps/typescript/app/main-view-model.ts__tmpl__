@@ -1,0 +1,10 @@
+import { Observable } from '@nativescript/core';
+import {  } from '@stackblitz/nativescript-battery';
+
+export class HelloWorldModel extends Observable {
+
+  constructor() {
+    super();
+  }
+
+}

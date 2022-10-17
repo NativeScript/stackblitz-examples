@@ -127,7 +127,49 @@ function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fil
       const boilerplate = <string>tree.read('tools/generators/add/files/apps/angular/src/app/home.component.html')?.toString();
       fileContents = boilerplate;
     }
+  } else if (filePath.indexOf('react/src/components') > -1) {
+    if (filePath.indexOf('HomeScreen.tsx__tmpl__') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/react/src/components/HomeScreen.tsx__tmpl__')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+    }
+  } else if (filePath.indexOf('svelte/src/components') > -1) {
+    if (filePath.indexOf('Home.svelte__tmpl__') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/svelte/src/components/Home.svelte__tmpl__')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+      fileContents = fileContents.replace(/to do/gi,
+        toTitleCase(name));
+    }
+  } else if (filePath.indexOf('typescript/app') > -1) {
+    if (filePath.indexOf('main-page.xml') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/typescript/app/main-page.xml')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+      fileContents = fileContents.replace(/to do/gi,
+        toTitleCase(name));
+    } else if (filePath.indexOf('main-view-model.ts__tmpl__') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/typescript/app/main-view-model.ts__tmpl__')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+      fileContents = fileContents.replace(/to do/gi,
+        toTitleCase(name));
+    }
+  } else if (filePath.indexOf('vue/app/components') > -1) {
+    if (filePath.indexOf('Home.vue__tmpl__') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/vue/app/components/Home.vue__tmpl__')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+      fileContents = fileContents.replace(/to do/gi,
+        toTitleCase(name));
+    }
   }
 
   tree.write(filePath, fileContents);
+}
+
+function toTitleCase(str: string) {
+  return str.toLowerCase().replace(/(?:^|[\s-/])\w/g, function (match) {
+    return match.toUpperCase();
+  });
 }
