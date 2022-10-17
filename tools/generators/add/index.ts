@@ -1,9 +1,29 @@
-import { generateFiles, joinPathFragments, Tree } from '@nrwl/devkit';
+import {
+  generateFiles,
+  joinPathFragments,
+  Tree,
+  updateJson,
+} from '@nrwl/devkit';
 import { library as libraryGenerator } from '@nativescript/nx/src/generators/library/library';
 
+const flavors = [
+  'angular',
+  'javascript',
+  'react',
+  'svelte',
+  'typescript',
+  'vue',
+];
 export default async function (tree: Tree, schema: any) {
-  await createSharedExampleLib(tree, schema.name);
-  await createFlavorApps(tree, schema.name);
+  const name = schema.name;
+  await createSharedExampleLib(tree, name);
+  await createFlavorApps(tree, name);
+  updateJson(tree, `workspace.json`, (json) => {
+    for (const flavor of flavors) {
+      json.projects[`${name}-${flavor}`] = `apps/${name}/${flavor}`;
+    }
+    return json;
+  });
 }
 
 async function createSharedExampleLib(tree: Tree, name: string) {
@@ -47,7 +67,7 @@ async function createFlavorApps(tree: Tree, name: string) {
     for (const filename of fileListing) {
       if (!ignoreFolders.includes(filename)) {
         console.log('filename:', filename);
-        const filePath = `${appPath}/${filename}`;
+        let filePath = `${appPath}/${filename}`;
         if (tree.isFile(filePath)) {
           // read the file and search/replace lib with newly created example lib
           let fileContents = tree.read(filePath)!.toString('utf-8');
@@ -66,6 +86,7 @@ async function createFlavorApps(tree: Tree, name: string) {
           if (fileContents?.indexOf('battery-') > -1) {
             fileContents = fileContents.replace(/battery-/gi, `${name}-`);
           }
+          filePath = filePath.replace(`apps/battery`, `apps/${name}`);
           tree.write(filePath, fileContents);
         } else {
           createFile(filePath);
