@@ -93,7 +93,8 @@ async function createFlavorApps(tree: Tree, name: string) {
           if (DEBUG) {
             console.log('create:', filePath);
           } else {
-            tree.write(filePath, fileContents);
+            swapFileWithBoilerplate(tree, name, filePath, fileContents);
+
           }
         } else {
           createFile(filePath);
@@ -113,4 +114,20 @@ async function createFlavorApps(tree: Tree, name: string) {
       createFile(flavorDir);
     }
   }
+}
+
+function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fileContents: string) {
+  if (filePath.indexOf('angular/src/app') > -1) {
+    if (filePath.indexOf('home.component.ts') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/angular/src/app/home.component.ts__tmpl__')?.toString();
+      fileContents = boilerplate.replace(/nativescript-battery/gi,
+        `nativescript-${name}`);
+
+    } else if (filePath.indexOf('home.component.html') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/angular/src/app/home.component.html')?.toString();
+      fileContents = boilerplate;
+    }
+  }
+
+  tree.write(filePath, fileContents);
 }
