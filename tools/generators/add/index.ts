@@ -66,7 +66,7 @@ async function createFlavorApps(tree: Tree, name: string) {
   const ignoreFiles = ['.DS_Store'];
   const ignoreFolders = ['node_modules', 'hooks', 'platforms', 'typings'];
   const createFile = (appPath: string) => {
-    const fileListing = tree.children(appPath);
+    const fileListing = tree.children(appPath); // Children of a flavour folder
     for (const filename of fileListing) {
       if (!ignoreFolders.includes(filename)) {
         // console.log('filename:', filename);
@@ -107,7 +107,7 @@ async function createFlavorApps(tree: Tree, name: string) {
       console.log('   ');
     }
     if (!ignoreFiles.includes(flavor)) {
-      const flavorDir = `${exampleCopyTargetPath}/${flavor}`;
+      const flavorDir = `${exampleCopyTargetPath}/${flavor}`; // apps/battery/{flavor}
       if (DEBUG) {
         console.log('---  ', flavor, '   ---');
       }
@@ -117,7 +117,9 @@ async function createFlavorApps(tree: Tree, name: string) {
 }
 
 function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fileContents: string) {
+  
   if (filePath.indexOf('angular/src/app') > -1) {
+ 
     if (filePath.indexOf('home.component.ts') > -1) {
       const boilerplate = <string>tree.read('tools/generators/add/files/apps/angular/src/app/home.component.ts__tmpl__')?.toString();
       fileContents = boilerplate.replace(/nativescript-battery/gi,
@@ -133,9 +135,10 @@ function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fil
       fileContents = boilerplate.replace(/nativescript-battery/gi,
         `nativescript-${name}`);
     }
-  } else if (filePath.indexOf('svelte/src/components') > -1) {
-    if (filePath.indexOf('Home.svelte__tmpl__') > -1) {
-      const boilerplate = <string>tree.read('tools/generators/add/files/apps/svelte/src/components/Home.svelte__tmpl__')?.toString();
+  } else if (filePath.indexOf('svelte/app/components') > -1) {
+
+    if (filePath.indexOf('Home.svelte') > -1) {
+      const boilerplate = <string>tree.read('tools/generators/add/files/apps/svelte/app/components/Home.svelte__tmpl__')?.toString();
       fileContents = boilerplate.replace(/nativescript-battery/gi,
         `nativescript-${name}`);
       fileContents = fileContents.replace(/to do/gi,
@@ -148,7 +151,7 @@ function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fil
         `nativescript-${name}`);
       fileContents = fileContents.replace(/to do/gi,
         toTitleCase(name));
-    } else if (filePath.indexOf('main-view-model.ts__tmpl__') > -1) {
+    } else if (filePath.indexOf('main-view-model.ts') > -1) {
       const boilerplate = <string>tree.read('tools/generators/add/files/apps/typescript/app/main-view-model.ts__tmpl__')?.toString();
       fileContents = boilerplate.replace(/nativescript-battery/gi,
         `nativescript-${name}`);
@@ -156,7 +159,8 @@ function swapFileWithBoilerplate(tree: Tree, name: string, filePath: string, fil
         toTitleCase(name));
     }
   } else if (filePath.indexOf('vue/app/components') > -1) {
-    if (filePath.indexOf('Home.vue__tmpl__') > -1) {
+    
+    if (filePath.indexOf('Home.vue') > -1) {
       const boilerplate = <string>tree.read('tools/generators/add/files/apps/vue/app/components/Home.vue__tmpl__')?.toString();
       fileContents = boilerplate.replace(/nativescript-battery/gi,
         `nativescript-${name}`);
