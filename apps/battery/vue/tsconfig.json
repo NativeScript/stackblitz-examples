@@ -10,8 +10,8 @@
     "importHelpers": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["app/*"],
-      "@/*": ["app/*"],
+      "~/*": ["src/*"],
+      "@/*": ["src/*"],
       "@stackblitz/nativescript-battery": [
         "../../../libs/nativescript-battery/src/index.ts"
       ]
@@ -24,7 +24,7 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
-  "include": ["app", "types", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
+  "include": ["src", "types", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
   "files": ["./references.d.ts"],
   "exclude": ["node_modules", "platforms"]
 }

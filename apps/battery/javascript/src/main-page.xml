@@ -1,0 +1,11 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="NativeScript is pretty cool!" icon="" />
+    <StackLayout class="p-5">
+        <Label text="The Battery Level is:" class="text-xl font-bold text-center"></Label>
+        <Label text="{{ level ? level + '%' : '---' }}" class="text-2xl text-center mt-2"></Label>
+        <Button text="{{ isListening ? 'Stop Listening to Battery Changes' : 'Listen for battery changes' }}" class="py-2 px-2 mt-4 rounded-full bg-blue-400 text-lg text-white" tap="{{toggleListenForChanges}}"></Button>
+        <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/512px-Unofficial_JavaScript_logo_2.svg.png" width="200" class="mt-5"></Image>
+    </StackLayout>
+</Page>
+
+
