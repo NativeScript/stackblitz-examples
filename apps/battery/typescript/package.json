@@ -4,16 +4,15 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@nativescript/core": "~8.3.0",
-    "@nativescript/theme": "~3.0.2",
-    "@stackblitz/nativescript-battery": "file:../../../libs/nativescript-battery/src"
+    "@nativescript/core": "~8.9.0"
   },
   "devDependencies": {
-    "@nativescript/ios": "8.3.3",
-    "@nativescript/preview-cli": "1.0.0-beta.18",
-    "@nativescript/stackblitz": "0.0.5",
-    "@nativescript/types-minimal": "~8.3.0",
-    "@nativescript/webpack": "~5.0.0",
-    "typescript": "~4.7.0"
+    "@nativescript/preview-cli": "^1.0.14",
+    "@nativescript/stackblitz": "^0.0.8",
+    "@nativescript/tailwind": "^2.1.0",
+    "@nativescript/types": "~8.9.0",
+    "@nativescript/webpack": "~5.0.27",
+    "tailwindcss": "~3.4.0",
+    "typescript": "~5.7.0"
   }
 }

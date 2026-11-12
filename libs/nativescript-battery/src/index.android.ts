@@ -79,7 +79,7 @@ function ensureBroadCastReceiver() {
       super();
       this._onReceiveCallback = onReceiveCallback;
 
-      return (<any>global).__native(this);
+      return (<any>globalThis).__native(this);
     }
 
     public onReceive(

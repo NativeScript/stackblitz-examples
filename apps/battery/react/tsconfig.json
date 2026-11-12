@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "es2017",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noEmitHelpers": true,
@@ -18,7 +18,7 @@
       ]
     }
   },
-  "include": ["./src/**/*.tsx?", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
   "files": ["./references.d.ts"],
   "exclude": ["node_modules", "platforms"]
 }

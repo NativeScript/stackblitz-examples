@@ -1,91 +1,40 @@
 <page>
-    <actionBar title="NativeScript is pretty cool!" />
+  <actionBar title="NativeScript is pretty cool!" />
 
-    <stackLayout class="p-20">
-        <label text="The Battery Level is:" class="h1 text-center" />
-        <label text={level ? level + '%' : '---'} class="h2 text-center" />
-        <button
-            text={isListening
-                ? 'Stop Listening to Battery Changes'
-                : 'Listen for battery changes'}
-            class="action-btn"
-            on:tap={toggleListenForChanges}
-            />
-        <image
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/1200px-Svelte_Logo.svg.png"
-            width="200"
-            class="m-t-20"
-            />
-    </stackLayout>
+  <stackLayout class="p-5">
+    <label text="The Battery Level is:" class="text-3xl text-center mb-2" />
+    <label text={level ? level + '%' : '---'} class="text-2xl text-center" />
+    <button
+      text={isListening ? 'Stop Listening to Battery Changes' : 'Listen for battery changes'}
+      class="action-btn"
+      on:tap={toggleListenForChanges}
+    />
+    <image
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/500px-Svelte_Logo.svg.png"
+      width="200"
+      class="mt-5"
+    />
+  </stackLayout>
 </page>
-  
+
 <script lang="ts">
-  import {
-    checkBatteryLevel,
-    listenForBatteryChanges,
-  } from '@stackblitz/nativescript-battery';
+  import { onMount } from 'svelte';
+  import { checkBatteryLevel, listenForBatteryChanges } from '@stackblitz/nativescript-battery';
 
-  const formatMessage = (level: number) => `The Battery Level is: ${level}%`;
-
-  let level: number;
+  let level: number | undefined;
   let isListening = false;
 
-  async function updateBatteryLevel() {
-    const value = await checkBatteryLevel();
-    updateLevel(value);
-    alert(formatMessage(value));
-  }
+  onMount(async () => {
+    level = await checkBatteryLevel();
+    alert(`The Battery Level is: ${level}%`);
+  });
 
   async function toggleListenForChanges() {
     isListening = listenForBatteryChanges((value) => {
-      updateLevel(value);
+      level = value;
     });
     if (isListening) {
-      // update view binding right away
-      const value = await checkBatteryLevel();
-      updateLevel(value);
+      level = await checkBatteryLevel();
     }
   }
-
-  function updateLevel(value: number) {
-    level = value;
-  }
-
-  updateBatteryLevel();
 </script>
-
-<style>
-.p-20 {
-  padding: 20;
-}
-
-.m-t-20 {
-  margin-top: 20;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.h1, .h2 {
-  margin-bottom: 6;
-  font-weight: normal;
-}
-
-.h1 {
-  font-size: 32;
-}
-
-.h2 {
-  font-size: 22;
-}
-
-Button.action-btn {
-  border-radius: 25;
-  background-color: rgb(0, 162, 255);
-  color: white;
-  font-size: 18;
-  padding: 5;
-}
-
-</style>

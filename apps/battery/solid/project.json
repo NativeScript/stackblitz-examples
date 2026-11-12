@@ -1,0 +1,43 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/battery/solid/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nativescript/nx:build",
+      "options": {
+        "noHmr": true,
+        "production": true,
+        "uglify": true,
+        "release": true,
+        "forDevice": true
+      },
+      "configurations": {}
+    },
+    "debug": {
+      "executor": "@nativescript/nx:debug",
+      "options": {
+        "noHmr": true,
+        "uglify": false,
+        "release": false,
+        "forDevice": false,
+        "prepare": false
+      },
+      "configurations": {}
+    },
+    "clean": {
+      "executor": "@nativescript/nx:clean",
+      "options": {}
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/battery/solid/**/*.{js,jsx}",
+          "apps/battery/solid/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "name": "solid"
+}

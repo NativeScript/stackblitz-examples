@@ -1,22 +1,23 @@
 {
   "compilerOptions": {
     "strict": true,
-    "target": "es2017",
+    "target": "ES2020",
     "module": "esnext",
-    "moduleResolution": "node",
-    "lib": ["dom", "es2017"],
+    "moduleResolution": "bundler",
+    "lib": ["dom", "ESNext"],
     "sourceMap": true,
     "noEmitHelpers": true,
     "importHelpers": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["app/*"],
-      "@/*": ["app/*"],
+      "~/*": ["src/*"],
+      "@/*": ["src/*"],
+      "vue": ["./node_modules/nativescript-vue"],
       "@stackblitz/nativescript-battery": [
         "../../../libs/nativescript-battery/src/index.ts"
       ]
     },
-    "typeRoots": ["types"],
+    "typeRoots": ["types", "./node_modules/@types"],
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -24,7 +25,10 @@
     "emitDecoratorMetadata": true,
     "skipLibCheck": true
   },
-  "include": ["app", "types", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
-  "files": ["./references.d.ts"],
+  "vueCompilerOptions": {
+    "target": 3,
+    "lib": "nativescript-vue"
+  },
+  "include": ["src", "types", "../../../libs/nativescript-battery/**/*.ios.ts", "../../../libs/nativescript-battery/**/*.android.ts"],
   "exclude": ["node_modules", "platforms"]
 }

@@ -1,8 +1,11 @@
-import { platformNativeScript, runNativeScriptAngularApp } from '@nativescript/angular';
-
-import { AppModule } from './app/app.module';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { bootstrapApplication, provideNativeScriptRouter, runNativeScriptAngularApp } from '@nativescript/angular';
+import { AppComponent } from './app/app.component';
+import { routes } from './app/app.routes';
 
 runNativeScriptAngularApp({
-  appModuleBootstrap: () => platformNativeScript().bootstrapModule(AppModule),
+  appModuleBootstrap: () =>
+    bootstrapApplication(AppComponent, {
+      providers: [provideNativeScriptRouter(routes), provideZonelessChangeDetection()],
+    }),
 });
-
