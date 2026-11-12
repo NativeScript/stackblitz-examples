@@ -1,0 +1,8 @@
+<ActionBar title="NativeScript is pretty cool!"></ActionBar>
+
+<StackLayout class="p-5">
+  <Label text="The Battery Level is:" class="text-3xl text-center mb-2"></Label>
+  <Label [text]="level() ? level() + '%' : '---'" class="text-2xl text-center"></Label>
+  <Button [text]="isListening() ? 'Stop Listening to Battery Changes' : 'Listen for battery changes'" class="action-btn" (tap)="toggleListenForChanges()"></Button>
+  <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Angular_gradient_logo.png/500px-Angular_gradient_logo.png" width="200" class="mt-5"></Image>
+</StackLayout>
