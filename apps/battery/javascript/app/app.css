@@ -1,6 +1,16 @@
-@import '@nativescript/theme/css/core.css';
-@import '@nativescript/theme/css/default.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-Button.-primary {
+ActionBar {
+  background-color: #65adf1;
+  color: white;
+}
+
+Button.action-btn {
+  border-radius: 25;
+  background-color: rgb(0, 162, 255);
+  color: white;
   font-size: 18;
+  padding: 5;
 }

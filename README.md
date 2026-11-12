@@ -1,36 +1,55 @@
 # StackBlitz Examples
 
-The examples are managed on the `main` branch only - the individual flavor branches are automatically updated when pushing to `main`
-
-Each example is split into it's own folder within apps, for example:
+Examples are edited on `main` only. Each one lives in its own folder:
 
 ```
 apps/{example}/{flavor}
 ```
 
-Each example can utilize shared `libs` for their examples to reuse across flavors, for example:
+Code shared across the flavors of an example lives in `libs`, e.g. `libs/nativescript-battery` is used by every `apps/battery/*` flavor. Apps import it by package name (`@stackblitz/nativescript-battery`), which each app's `webpack.config.js` aliases to the lib's `src` folder.
+
+## How examples reach StackBlitz
+
+Every push to `main` runs [`publish-examples.yml`](.github/workflows/publish-examples.yml), which for each `{example}/{flavor}`:
+
+1. extracts it into a standalone project ([`tools/scripts/extract-example.mjs`](tools/scripts/extract-example.mjs)), copying in the libs it uses and rewriting `../../../` paths;
+2. installs it and bundles it for iOS and Android ([`tools/scripts/verify-example.sh`](tools/scripts/verify-example.sh)), the same build `ns preview` runs;
+3. pushes it to the `{example}-{flavor}` branch.
+
+Pull requests run steps 1 and 2 without publishing.
+
+StackBlitz opens those branches straight from GitHub, so links always show what is on `main`:
 
 ```
-libs/nativescript-battery
+https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/{example}-{flavor}?file={path}
 ```
 
-^ is used across all `apps/battery` examples.
+> **Warning:** Do not edit the `{example}-{flavor}` branches; they are overwritten on every publish.
 
-## Test them out locally
+### Battery example links
 
-Since each flavor utilizes it's own node_modules dependencies you want to clean each example before running it, for example:
+| Flavor     | Link |
+| ---------- | ---- |
+| TypeScript | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-typescript?file=app%2Fmain-page.xml |
+| JavaScript | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-javascript?file=app%2Fmain-page.xml |
+| Angular    | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-angular?file=src%2Fapp%2Fhome.component.html |
+| React      | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-react?file=src%2Fcomponents%2FHomeScreen.tsx |
+| Solid      | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-solid?file=src%2Fcomponents%2Fhome.jsx |
+| Svelte     | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-svelte?file=app%2Fcomponents%2FHome.svelte |
+| Vue        | https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/battery-vue?file=src%2Fcomponents%2FHome.vue |
+
+## Check an example locally
+
+Run what CI runs:
 
 ```
-npx nx run battery-angular:clean
+node tools/scripts/extract-example.mjs battery vue dist/battery-vue
+tools/scripts/verify-example.sh dist/battery-vue
 ```
 
-You can now try out the example:
+`dist/battery-vue` is then the exact project StackBlitz will load.
 
-```
-npx nx run battery-angular:ios
-```
-
-> **Warning:** Do not edit the individual flavor branches manually!.
+`@nativescript/core` stays on 8.9.x until NativeScript Preview supports v9.
 
 # Templates
 

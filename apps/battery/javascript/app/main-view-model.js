@@ -1,25 +1,25 @@
 import { Observable } from '@nativescript/core';
-
-function getMessage(counter) {
-  if (counter <= 0) {
-    return 'Hoorraaay! You unlocked the NativeScript clicker achievement!';
-  } else {
-    return `${counter} taps left`;
-  }
-}
+import { checkBatteryLevel, listenForBatteryChanges } from '@stackblitz/nativescript-battery';
 
 export function createViewModel() {
   const viewModel = new Observable();
-  viewModel.counter = 42;
-  viewModel.message = getMessage(viewModel.counter);
+  viewModel.set('level', undefined);
+  viewModel.set('isListening', false);
 
-  viewModel.onTap = () => {
-    viewModel.counter--;
-    viewModel.set('message', getMessage(viewModel.counter));
-
-    // log the message to the console
-    console.log(getMessage(viewModel.counter));
+  viewModel.toggleListenForChanges = async () => {
+    const isListening = listenForBatteryChanges((value) => {
+      viewModel.set('level', value);
+    });
+    viewModel.set('isListening', isListening);
+    if (isListening) {
+      viewModel.set('level', await checkBatteryLevel());
+    }
   };
+
+  checkBatteryLevel().then((value) => {
+    viewModel.set('level', value);
+    alert(`The Battery Level is: ${value}%`);
+  });
 
   return viewModel;
 }

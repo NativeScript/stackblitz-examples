@@ -1,0 +1,59 @@
+name: Publish Examples
+
+# Each apps/<example>/<flavor> is extracted into a standalone project and pushed
+# to the <example>-<flavor> branch, which StackBlitz opens directly from GitHub:
+#   https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/<example>-<flavor>
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [battery]
+        flavor: [angular, javascript, react, solid, svelte, typescript, vue]
+    env:
+      OUT_DIR: dist/${{ matrix.example }}-${{ matrix.flavor }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Extract
+        run: node tools/scripts/extract-example.mjs ${{ matrix.example }} ${{ matrix.flavor }} "$OUT_DIR"
+
+      - name: Install and bundle for iOS and Android
+        run: tools/scripts/verify-example.sh "$OUT_DIR"
+
+      - name: Publish to ${{ matrix.example }}-${{ matrix.flavor }}
+        if: github.ref == 'refs/heads/main'
+        env:
+          BRANCH: ${{ matrix.example }}-${{ matrix.flavor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          remote="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if ! git clone --quiet --depth 1 --branch "$BRANCH" "$remote" publish; then
+            git init --quiet --initial-branch "$BRANCH" publish
+          fi
+          find publish -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R "$OUT_DIR"/. publish/
+          cd publish
+          git add --all
+          if git diff --cached --quiet; then
+            echo "$BRANCH is already up to date"
+            exit 0
+          fi
+          git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit --quiet -m "chore(update): $BRANCH to $GITHUB_SHA"
+          git push --quiet "$remote" "HEAD:refs/heads/$BRANCH"

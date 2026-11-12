@@ -1,41 +1,28 @@
-import { Component, OnInit, inject, NgZone } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA, OnInit, signal } from '@angular/core';
+import { NativeScriptCommonModule } from '@nativescript/angular';
 import { checkBatteryLevel, listenForBatteryChanges } from '@stackblitz/nativescript-battery';
-
-const formatMessage = (level) => `The Battery Level is: ${level}%`;
 
 @Component({
   selector: 'ns-home',
   templateUrl: './home.component.html',
+  imports: [NativeScriptCommonModule],
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class HomeComponent implements OnInit {
-  level: number;
-  isListening = false;
-  ngZone = inject(NgZone);
+  level = signal<number | undefined>(undefined);
+  isListening = signal(false);
 
-  ngOnInit() {
-    this.updateBatteryLevel();
-  }
-
-  async updateBatteryLevel() {
+  async ngOnInit() {
     const value = await checkBatteryLevel();
-    this.updateLevel(value);
-    alert(formatMessage(value));
+    this.level.set(value);
+    alert(`The Battery Level is: ${value}%`);
   }
 
   async toggleListenForChanges() {
-    this.isListening = listenForBatteryChanges((value) => {
-      this.updateLevel(value);
-    });
-    if (this.isListening) {
-      // update view binding right away
-      const value = await checkBatteryLevel();
-      this.updateLevel(value);
+    const listening = listenForBatteryChanges((value) => this.level.set(value));
+    this.isListening.set(listening);
+    if (listening) {
+      this.level.set(await checkBatteryLevel());
     }
-  }
-
-  private updateLevel(value: number) {
-    this.ngZone.run(() => {
-      this.level = value;
-    });
   }
 }
