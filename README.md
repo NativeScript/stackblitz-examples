@@ -18,15 +18,19 @@ Every push to `main` runs [`publish-examples.yml`](.github/workflows/publish-exa
 
 Pull requests run steps 1 and 2 without publishing.
 
-StackBlitz opens those branches straight from GitHub, so links always show what is on `main`:
+> **Warning:** Do not edit the `{example}-{flavor}` branches; they are overwritten on every publish.
+
+### Saved projects linked from nativescript.org
+
+nativescript.org links to saved StackBlitz projects owned by `nativescript-oss` (`stackblitz.com/edit/nativescript-battery-example-*`), because their view and fork counts are shown to visitors. The published branches are the source for those projects: after a change lands on `main`, sign in as `nativescript-oss`, open the saved project, replace its files with the contents of the matching `{example}-{flavor}` branch, and save.
+
+### Branch links (always current, no view counts)
+
+StackBlitz can also open each branch straight from GitHub. Use these to check what is on `main`, or as a fallback link if a saved project breaks:
 
 ```
 https://stackblitz.com/github/NativeScript/stackblitz-examples/tree/{example}-{flavor}?file={path}
 ```
-
-> **Warning:** Do not edit the `{example}-{flavor}` branches; they are overwritten on every publish.
-
-### Battery example links
 
 | Flavor     | Link |
 | ---------- | ---- |
